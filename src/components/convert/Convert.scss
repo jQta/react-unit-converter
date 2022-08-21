@@ -1,0 +1,125 @@
+.convert-box {
+  background-color: #2e0039;
+  border-radius: 16px;
+  margin: 16px 8px;
+  padding: 0px 16px;
+
+  &__title {
+    color: #ffffff;
+  }
+}
+
+.convert-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__row {
+    display: flex;
+  }
+
+  &__exchange {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+    margin: 8px 0 0 8px;
+  }
+
+  &__measure {
+    margin: 0;
+    margin-left: 8px;
+    color: #ffffff;
+  }
+
+  &__select {
+    background: none;
+    border: none;
+    border-bottom: 2px solid #ffffff;
+    color: #ffffff;
+    width: 75%;
+  }
+
+  &__input {
+    background: none;
+    border: none;
+    border-bottom: 2px solid #ffffff;
+    color: #ffffff;
+    text-align: right;
+    width: 73%;
+  }
+}
+
+.convert-outcome {
+  display: flex;
+  padding: 24px 0px;
+
+  &__heart {
+    position: relative;
+    padding-top: 4px;
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+    cursor: pointer;
+  }
+
+  &__result {
+    color: #ffffff;
+    font-weight: bold;
+    margin: 0;
+    padding-left: 136px;
+  }
+
+  &__measure {
+    color: #ffffff;
+    margin: 0;
+    padding-left: 8px;
+  }
+}
+
+.saved-box {
+  margin: 16px 8px;
+
+  &__title {
+    color: #808080;
+  }
+
+  &__row {
+    padding: 0;
+
+    &--item {
+      display: flex;
+      text-decoration: none;
+      background-color: #d3d3d3;
+      border-radius: 8px;
+      margin-top: 16px;
+      padding: 8px 12px;
+    }
+  }
+
+  &__delete {
+    position: absolute;
+    right: 8%;
+    color: #808080;
+    cursor: pointer;
+  }
+}
+
+@media (min-width: 1920px) {
+  .b-box {
+    margin-left: 35%;
+  }
+  .convert-box {
+    max-width: 50%;
+  }
+  .saved-box__title {
+    margin-left: 35%;
+  }
+  .saved-box__row--item {
+    margin-left: 35%;
+    max-width: 33%;
+  }
+
+  .saved-box__delete {
+    right: 32%;
+  }
+}

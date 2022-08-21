@@ -1,0 +1,43 @@
+.header {
+  border-bottom: 1px solid black;
+}
+
+.header-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: 16px;
+
+  &__exchange {
+    width: 24px;
+    height: 24px;
+  }
+
+  &__title {
+    font-size: 20px;
+    color: #2e0039;
+  }
+}
+
+.footer {
+  background-color: #2e0039;
+
+  &__box {
+    display: flex;
+    justify-content: space-around;
+    color: #ffffff;
+    padding: 8px;
+    margin-top: 16px;
+  }
+}
+
+@media (min-width: 1920px){
+  .header-box{
+    margin-left: 35.5%;
+  }
+
+  .footer__box{
+    justify-content: center;
+    gap: 48px;
+  }
+}
