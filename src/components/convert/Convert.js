@@ -1,10 +1,10 @@
 import "./Convert.scss";
 import heart from "../../assets/icons/heart.svg";
 import exchange from "../../assets/icons/exchange.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Convert() {
-  const [numberDistance, setNumberDistance] = useState();
+  const [numberDistance, setNumberDistance] = useState("");
   const [resultsConvert, setResultsConvert] = useState();
   const [measure, setMeasure] = useState();
   const [measureConvert, setMeasureConvert] = useState();
@@ -12,38 +12,50 @@ export default function Convert() {
   const [saved, setSaved] = useState([]);
 
   function setConvert(e) {
-    if (e.target.value === "1") {
-      setResultsConvert(numberDistance * 0.621371);
-      setMeasure("km");
-      setMeasureConvert("miles");
-      setCompleteConverse(numberDistance + " km → " + resultsConvert.toFixed(2) + " miles");
-    } else if (e.target.value === "2") {
-      setResultsConvert(numberDistance * 1.60934);
-      setMeasure("miles");
-      setMeasureConvert("km");
-      setCompleteConverse(numberDistance + " miles → " + resultsConvert.toFixed(2) + " km");
-    } else if (e.target.value === "3") {
-      setResultsConvert(numberDistance * 0.3048);
-      setMeasure("foot");
-      setMeasureConvert("m");
-      setCompleteConverse(numberDistance + " foot → " + resultsConvert.toFixed(2) + " m");
-    } else if (e.target.value === "4") {
-      setResultsConvert(numberDistance * 3.28084);
-      setMeasure("m");
-      setMeasureConvert("foot");
-      setCompleteConverse(numberDistance + " m → " + resultsConvert.toFixed(2) + " foot");
-    } else if (e.target.value === "5") {
-      setResultsConvert(numberDistance * 0.393701);
-      setMeasure("cm");
-      setMeasureConvert("inch");
-      setCompleteConverse(numberDistance + " cm → " + resultsConvert.toFixed(2) + " inch");
-    } else if (e.target.value === "6") {
-      setResultsConvert(numberDistance * 2.54);
-      setMeasure("inch");
-      setMeasureConvert("cm");
-      setCompleteConverse(numberDistance + " inch → " + resultsConvert.toFixed(2) + " cm");
+    if (numberDistance !== undefined) {
+      if (e.target.value === "1") {
+        setResultsConvert(numberDistance * 0.621371);
+        setMeasure("km");
+        setMeasureConvert("miles");
+      } else if (e.target.value === "2") {
+        setResultsConvert(numberDistance * 1.60934);
+        setMeasure("miles");
+        setMeasureConvert("km");
+      } else if (e.target.value === "3") {
+        setResultsConvert(numberDistance * 0.3048);
+        setMeasure("foot");
+        setMeasureConvert("m");
+      } else if (e.target.value === "4") {
+        setResultsConvert(numberDistance * 3.28084);
+        setMeasure("m");
+        setMeasureConvert("foot");
+      } else if (e.target.value === "5") {
+        setResultsConvert(numberDistance * 0.393701);
+        setMeasure("cm");
+        setMeasureConvert("inch");
+      } else if (e.target.value === "6") {
+        setResultsConvert(numberDistance * 2.54);
+        setMeasure("inch");
+        setMeasureConvert("cm");
+      }
     }
   }
+
+  useEffect(() => {
+    if (measure === "km" && measureConvert === "miles") {
+      setCompleteConverse(numberDistance + " km → " + resultsConvert.toFixed(2) + " miles");
+    } else if (measure === "miles" && measureConvert === "km") {
+      setCompleteConverse(numberDistance + " miles → " + resultsConvert.toFixed(2) + " km");
+    } else if (measure === "foot" && measureConvert === "m") {
+      setCompleteConverse(numberDistance + " foot → " + resultsConvert.toFixed(2) + " m");
+    } else if (measure === "m" && measureConvert === "foot") {
+      setCompleteConverse(numberDistance + " m → " + resultsConvert.toFixed(2) + " foot");
+    } else if (measure === "cm" && measureConvert === "inch") {
+      setCompleteConverse(numberDistance + " cm → " + resultsConvert.toFixed(2) + " inch");
+    } else if (measure === "inch" && measureConvert === "cm") {
+      setCompleteConverse(numberDistance + " inch → " + resultsConvert.toFixed(2) + " cm");
+    }
+  }, [numberDistance, measure, measureConvert, resultsConvert]);
 
   function onDelete(index) {
     const newSaved = [...saved];
@@ -51,7 +63,15 @@ export default function Convert() {
     setSaved(newSaved);
   }
 
-  localStorage.setItem("savedConvert", saved);
+  useEffect(() => {
+    localStorage.setItem("Saved_Converts", JSON.stringify(saved));
+  }, [saved]);
+
+  const savedList = JSON.parse(localStorage.getItem("Saved_Converts"));
+
+  useEffect(() => {
+    if (savedList) setSaved(savedList);
+  }, []);
 
   return (
     <>
@@ -74,13 +94,21 @@ export default function Convert() {
               <img src={exchange} className="convert-panel__exchange" alt="logo" />
             </div>
             <div className="convert-panel__row">
-              <input className="convert-panel__input" onChange={e => setNumberDistance(e.target.value)} />
+              <input className="convert-panel__input" value={numberDistance} onChange={e => setNumberDistance(e.target.value)} />
               <span className="convert-panel__measure">{measure}</span>
             </div>
           </div>
           <div className="convert-outcome">
-            <img src={heart} className="convert-outcome__heart" alt="save" onClick={() => setSaved([...saved, completeConverse])} />
-            <p className="convert-outcome__result">{resultsConvert && resultsConvert.toFixed(2)}</p>
+            <img
+              src={heart}
+              className="convert-outcome__heart"
+              alt="save"
+              onClick={() => {
+                setSaved([...saved, completeConverse]);
+                setNumberDistance(() => "");
+              }}
+            />
+            <span className="convert-outcome__result">{resultsConvert && (numberDistance === "" ? resultsConvert === undefined : resultsConvert.toFixed(2))}</span>
             <span className="convert-outcome__measure">{measureConvert}</span>
           </div>
         </div>
