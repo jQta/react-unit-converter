@@ -13,32 +13,30 @@ export default function Convert() {
   const [saved, setSaved] = useState([]);
 
   function setConvert() {
-    if (numberDistance !== undefined) {
-      if (selectValue === "1") {
-        setResultsConvert(numberDistance * 0.621371);
-        setMeasure("km");
-        setMeasureConvert("miles");
-      } else if (selectValue === "2") {
-        setResultsConvert(numberDistance * 1.60934);
-        setMeasure("miles");
-        setMeasureConvert("km");
-      } else if (selectValue === "3") {
-        setResultsConvert(numberDistance * 0.3048);
-        setMeasure("foot");
-        setMeasureConvert("m");
-      } else if (selectValue === "4") {
-        setResultsConvert(numberDistance * 3.28084);
-        setMeasure("m");
-        setMeasureConvert("foot");
-      } else if (selectValue === "5") {
-        setResultsConvert(numberDistance * 0.393701);
-        setMeasure("cm");
-        setMeasureConvert("inch");
-      } else if (selectValue === "6") {
-        setResultsConvert(numberDistance * 2.54);
-        setMeasure("inch");
-        setMeasureConvert("cm");
-      }
+    if (selectValue === "1") {
+      setResultsConvert(numberDistance * 0.621371);
+      setMeasure("km");
+      setMeasureConvert("miles");
+    } else if (selectValue === "2") {
+      setResultsConvert(numberDistance * 1.60934);
+      setMeasure("miles");
+      setMeasureConvert("km");
+    } else if (selectValue === "3") {
+      setResultsConvert(numberDistance * 0.3048);
+      setMeasure("foot");
+      setMeasureConvert("m");
+    } else if (selectValue === "4") {
+      setResultsConvert(numberDistance * 3.28084);
+      setMeasure("m");
+      setMeasureConvert("foot");
+    } else if (selectValue === "5") {
+      setResultsConvert(numberDistance * 0.393701);
+      setMeasure("cm");
+      setMeasureConvert("inch");
+    } else if (selectValue === "6") {
+      setResultsConvert(numberDistance * 2.54);
+      setMeasure("inch");
+      setMeasureConvert("cm");
     }
   }
 
@@ -166,16 +164,18 @@ export default function Convert() {
       </div>
       <div className="saved-box">
         <h3 className="saved-box__title">saved</h3>
-        <ul className="saved-box__row">
-          {saved.map((item, index) => (
-            <li className="saved-box__row--item" key={index}>
-              {item}
-              <span className="saved-box__delete" onClick={() => onDelete(index)}>
-                x
-              </span>
-            </li>
-          ))}
-        </ul>
+        <div className="saved-box__desktop">
+          <ul className="saved-box__info">
+            {saved.map((item, index) => (
+              <li className="saved-box__info--item" key={index}>
+                {item}
+                <span className="saved-box__delete" onClick={() => onDelete(index)}>
+                  x
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   );
