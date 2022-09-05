@@ -2,13 +2,14 @@ import "./Convert.scss";
 import heart from "../../assets/icons/heart.svg";
 import exchange from "../../assets/icons/exchange.svg";
 import { useEffect, useState } from "react";
+import SavedList from "../savedlist/SavedList";
 
 export default function Convert() {
   const [selectValue, setSelectValue] = useState("");
   const [numberDistance, setNumberDistance] = useState("");
   const [resultsConvert, setResultsConvert] = useState("");
-  const [measure, setMeasure] = useState();
-  const [measureConvert, setMeasureConvert] = useState();
+  const [measure, setMeasure] = useState("");
+  const [measureConvert, setMeasureConvert] = useState("");
   const [completeConverse, setCompleteConverse] = useState();
   const [saved, setSaved] = useState([]);
 
@@ -17,26 +18,32 @@ export default function Convert() {
       setResultsConvert(numberDistance * 0.621371);
       setMeasure("km");
       setMeasureConvert("miles");
+      setCompleteConverse(numberDistance + " km → " + Number(resultsConvert).toFixed(2) + " miles");
     } else if (selectValue === "2") {
       setResultsConvert(numberDistance * 1.60934);
       setMeasure("miles");
       setMeasureConvert("km");
+      setCompleteConverse(numberDistance + " miles → " + Number(resultsConvert).toFixed(2) + " km");
     } else if (selectValue === "3") {
       setResultsConvert(numberDistance * 0.3048);
       setMeasure("foot");
       setMeasureConvert("m");
+      setCompleteConverse(numberDistance + " foot → " + Number(resultsConvert).toFixed(2) + " m");
     } else if (selectValue === "4") {
       setResultsConvert(numberDistance * 3.28084);
       setMeasure("m");
       setMeasureConvert("foot");
+      setCompleteConverse(numberDistance + " m → " + Number(resultsConvert).toFixed(2) + " foot");
     } else if (selectValue === "5") {
       setResultsConvert(numberDistance * 0.393701);
       setMeasure("cm");
       setMeasureConvert("inch");
+      setCompleteConverse(numberDistance + " cm → " + Number(resultsConvert).toFixed(2) + " inch");
     } else if (selectValue === "6") {
       setResultsConvert(numberDistance * 2.54);
       setMeasure("inch");
       setMeasureConvert("cm");
+      setCompleteConverse(numberDistance + " inch → " + Number(resultsConvert).toFixed(2) + " cm");
     }
   }
 
@@ -72,41 +79,8 @@ export default function Convert() {
     setConvert();
   });
 
-  useEffect(() => {
-    if (measure === "km" && measureConvert === "miles") {
-      setCompleteConverse(numberDistance + " km → " + Number(resultsConvert).toFixed(2) + " miles");
-    } else if (measure === "miles" && measureConvert === "km") {
-      setCompleteConverse(numberDistance + " miles → " + Number(resultsConvert).toFixed(2) + " km");
-    } else if (measure === "foot" && measureConvert === "m") {
-      setCompleteConverse(numberDistance + " foot → " + Number(resultsConvert).toFixed(2) + " m");
-    } else if (measure === "m" && measureConvert === "foot") {
-      setCompleteConverse(numberDistance + " m → " + Number(resultsConvert).toFixed(2) + " foot");
-    } else if (measure === "cm" && measureConvert === "inch") {
-      setCompleteConverse(numberDistance + " cm → " + Number(resultsConvert).toFixed(2) + " inch");
-    } else if (measure === "inch" && measureConvert === "cm") {
-      setCompleteConverse(numberDistance + " inch → " + Number(resultsConvert).toFixed(2) + " cm");
-    }
-  }, [numberDistance, measure, measureConvert, resultsConvert]);
-
-  useEffect(() => {
-    localStorage.setItem("Saved_Converts", JSON.stringify(saved));
-  }, [saved]);
-
-  const savedList = JSON.parse(localStorage.getItem("Saved_Converts"));
-
-  useEffect(() => {
-    if (savedList) setSaved(savedList);
-    // eslint-disable-next-line
-  }, []);
-
-  const onDelete = index => {
-    const newSaved = [...saved];
-    newSaved.splice(index, 1);
-    setSaved(newSaved);
-  };
-
-  const preventMinus = e => {
-    if (e.code === "Minus" || e.code === "NumpadSubtract" || e.code === "AltLeft") {
+  const checkInput = e => {
+    if (e.code === ("Minus" || "Slash" || "NumpadSubtract" || "AltLeft") || e.charCode < 45 || e.charCode > 57) {
       e.preventDefault();
     }
   };
@@ -140,7 +114,7 @@ export default function Convert() {
                 className="convert-panel__input"
                 value={numberDistance}
                 type="number"
-                onKeyPress={preventMinus}
+                onKeyPress={checkInput}
                 onChange={e => setNumberDistance(e.target.value)}
               />
               <span className="convert-panel__measure">{measure}</span>
@@ -165,16 +139,7 @@ export default function Convert() {
       <div className="saved-box">
         <h3 className="saved-box__title">saved</h3>
         <div className="saved-box__desktop">
-          <ul className="saved-box__info">
-            {saved.map((item, index) => (
-              <li className="saved-box__info--item" key={index}>
-                {item}
-                <span className="saved-box__delete" onClick={() => onDelete(index)}>
-                  x
-                </span>
-              </li>
-            ))}
-          </ul>
+          <SavedList saved={saved} setSaved={setSaved} />
         </div>
       </div>
     </>

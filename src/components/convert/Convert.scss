@@ -115,6 +115,24 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+@media (max-width: 400px) {
+  .convert-outcome__result {
+    width: 234px;
+  }
+}
+
+@media (min-width: 767px) {
+  .convert-outcome__result {
+    width: 555px;
+  }
+}
+
+@media (min-width: 1080px) {
+  .convert-outcome__result {
+    width: 760px;
+  }
+}
+
 @media (min-width: 1920px) {
   .b-box {
     margin-left: 35%;
