@@ -80,7 +80,7 @@ export default function Convert() {
   });
 
   const checkInput = e => {
-    if (e.code === ("Minus" || "Slash" || "NumpadSubtract" || "AltLeft") || e.charCode < 45 || e.charCode > 57) {
+    if (e.charCode < 44 || e.charCode > 57 || e.charCode === 47 || e.charCode === 45) {
       e.preventDefault();
     }
   };
