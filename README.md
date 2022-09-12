@@ -6,7 +6,6 @@ App that allows us to make conversions between units.
 
 This project has been made on the following bases:
 
-```
 ⋅⋅* The user has a *<select>* to choose between units.
 ⋅⋅* The user has an *<input>* to type the number to be converted.
 ⋅⋅* The conversion **must** be displayed instantly and two decimal places.
@@ -15,4 +14,3 @@ This project has been made on the following bases:
 ⋅⋅* Input only allows:
 > Numbers.
 > '.' and ','
-```
